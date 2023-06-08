@@ -8,6 +8,9 @@ A deployment toolkit that support:
 
 And you could use it with both command-line and guiding ways.
 
+* [Installation](#installation)
+  * [via pip](#via-pip)
+  * [via release](#via-release)
 * [Guiding Way](#guiding-way)
   * [Manually specify the profile](#manually-specify-the-profile)
     * [-f | File](#-f--file)
@@ -29,6 +32,22 @@ And you could use it with both command-line and guiding ways.
   * [Helm Environment Profile](#helm-environment-profile)
   * [Variables](#variables)
   * [Example](#example)
+
+## Installation
+
+### via pip
+
+```bash
+pip install helmdt
+```
+
+### via release
+
+Download the latest stable release (`.whl`) from the [release](release) page.
+
+```bash
+pip install helmdt-x.x.x-py3-none-any.whl
+```
 
 ## Guiding Way
 
