@@ -10,7 +10,7 @@ with open("requirements.txt", "r", encoding="utf-8") as fh:
 
 setup(
     name="helmdt",
-    version="0.4.4",
+    version="0.5.0",
     author="Akaishi Toshiya",
     author_email="Toshiya14@live.jp",
     license="MIT",
