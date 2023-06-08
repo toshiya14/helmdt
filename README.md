@@ -164,11 +164,11 @@ bypass the `--no-cache` to `docker build`. This argument only used in the `build
 
 ```yaml
 kubecontexts:
-  - name: developers-int
+  - name: int
     provider: azure
     subscription: xxxxxxxx-xxxx-xxxx-xxxxxxxxxxxx
     resource_group: resource-group
-    aks_name: Developers-internal
+    aks_name: service1-int
 docker:
   - name: service1
     image_name: service1
