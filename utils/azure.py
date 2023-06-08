@@ -1,9 +1,9 @@
 import subprocess
 import sys
 import functools
-from utils.colorc import cc as colorc
-from utils.depcheck import checkdep
-from utils.run import run
+from .colorc import cc as colorc
+from .depcheck import checkdep
+from .run import run
 
 
 def login_az():

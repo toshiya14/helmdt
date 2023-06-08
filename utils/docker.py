@@ -1,7 +1,7 @@
-from utils.azure import login_acr
-from utils.depcheck import checkdep
-from utils.run import promised_run
-from utils.colorc import cc
+from .azure import login_acr
+from .depcheck import checkdep
+from .run import promised_run
+from .colorc import cc
 import sys
 import re
 

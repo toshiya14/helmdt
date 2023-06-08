@@ -6,7 +6,7 @@ import sys
 from InquirerPy import prompt, inquirer
 from pathlib import Path
 
-from objects.profile import (
+from objects.profiles import (
     HelmEnvironmentProfile,
     HelmPackageProfile,
     load_profile,

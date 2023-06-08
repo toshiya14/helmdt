@@ -2,7 +2,7 @@ import subprocess
 import platform
 import sys
 
-from utils.colorc import cc
+from .colorc import cc
 
 
 def run(

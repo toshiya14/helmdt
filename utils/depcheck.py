@@ -1,8 +1,9 @@
 from reprint import output
-from utils.colorc import bcolors, cc
-from utils.run import run
 import subprocess
 import sys
+
+from .colorc import bcolors, cc
+from .run import run
 
 deps = [
     {

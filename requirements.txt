@@ -1,4 +1,4 @@
 click
-InquirerPy
+inquirerpy
 pyyaml
 reprint

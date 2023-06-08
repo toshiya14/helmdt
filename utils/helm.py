@@ -1,7 +1,7 @@
 import subprocess
-from utils.azure import retry_with_login_az_acr
-from utils.depcheck import checkdep
-from utils.run import run, promised_run, run_get_output
+from .azure import retry_with_login_az_acr
+from .depcheck import checkdep
+from .run import run, promised_run, run_get_output
 
 
 def apply_helm_package(
