@@ -30,6 +30,7 @@ And you could use it with both command-line and guiding ways.
   * [Docker Image Profile](#docker-image-profile)
   * [HELM Package Profile](#helm-package-profile)
   * [Helm Environment Profile](#helm-environment-profile)
+  * [Helm Repository Profile](#helm-repository-profile)
   * [Variables](#variables)
   * [Example](#example)
 
@@ -175,6 +176,11 @@ bypass the `--no-cache` to `docker build`. This argument only used in the `build
 - `values_file`: (string) The values file.
 - `kubecontext`: (string) The name of the kubenetes context where the helm package to be applied.
 
+### Helm Repository Profile
+
+- `name`: (string) The name for the repository profile, will be added to helm.
+- `url`: (string) The url of the repository.
+
 ### Variables
 
 - `$(gitroot)` - Would be replated to the root path of the current git repository.
@@ -188,6 +194,9 @@ kubecontexts:
     subscription: xxxxxxxx-xxxx-xxxx-xxxxxxxxxxxx
     resource_group: resource-group
     aks_name: service1-int
+helm_repos:
+  - name: bitnami
+    url: https://charts.bitnami.com/bitnami
 docker:
   - name: service1
     image_name: service1
@@ -207,4 +216,12 @@ helm:
       - name: prod
         values_file: $(gitroot)/helm-values/prod.yaml
         kubecontext: service1-prod
+  - name: service_from_repo
+    dpname: service_from_repo
+    namespace: ns1
+    package: mariadb
+    environments:
+      - name: dev
+        values_file: $(gitroot)/helm-values/dev.yaml
+        kubecontext: service1-dev
 ```

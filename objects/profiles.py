@@ -29,6 +29,8 @@ class DeploymentProfile:
                 self.helm = [HelmPackageProfile(**e) for e in d.get("helm")]
             else:
                 self.helm = []
+            if "helm_repos" in d.keys() and isinstance(d.get("helm_repos"), list):
+                self.repos = [HelmRepoProfile(**e) for e in d.get("helm_repos")]
 
 
 class KubernetesContextProfile:
@@ -43,6 +45,16 @@ class KubernetesContextProfile:
             self.subscription = d.get("subscription")
             self.resource_group = d.get("resource_group")
             self.aks_name = d.get("aks_name")
+
+
+class HelmRepoProfile:
+    def __init__(self, **kwargs) -> None:
+        self.from_dict(kwargs)
+
+    def from_dict(self, d: dict) -> None:
+        if isinstance(d, dict):
+            self.name = d.get("name")
+            self.url = d.get("url")
 
 
 class DockerImageProfile:
@@ -67,6 +79,9 @@ class HelmPackageProfile:
         self.namespace = d.get("namespace")
         self.dpname = d.get("dpname")
         self.package = d.get("package")
+        self.repo = d.get("repo")
+        self.static_tag = d.get("static_tag")
+        self.tag_path = d.get("tag_path")
         if "environments" in d.keys() and isinstance(d.get("environments"), list):
             self.environments = [
                 HelmEnvironmentProfile(**e) for e in d.get("environments")

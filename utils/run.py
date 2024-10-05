@@ -1,6 +1,7 @@
 import subprocess
 import platform
 import sys
+from typing import Callable
 
 from .colorc import cc
 
@@ -34,7 +35,7 @@ def promised_run(
 ):
     proc = run(cmd, preferred_shell, stderr, stdout, cwd)
     if proc.returncode != 0:
-        if isinstance(fallback, callable):
+        if isinstance(fallback, Callable):
             fallback()
         cc.error(f"Failed to run `{cmd}`.")
         sys.exit(999)

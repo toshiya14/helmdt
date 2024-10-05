@@ -17,7 +17,7 @@ from utils.azure import link_aks
 from utils.colorc import cc
 from utils.depcheck import checkdep
 from utils.docker import build_docker_image, push_docker_image
-from utils.helm import apply_helm_package
+from utils.helm import add_repo, apply_helm_package
 
 
 class runtime:
@@ -204,20 +204,57 @@ def apply(name: str = None, env: str = None, yes: bool = False):
         f"helm[name={using_helm_profile.name}].environments",
     )
 
+    repo_name = using_helm_profile.repo
+    repo: HelmPackageProfile | None = None
+
+    if repo_name:
+        for r in RUNTIME.profile.repos:
+            if r.name == repo_name:
+                repo = r
+        if repo is None:
+            cc.error(f"No repo named `{repo_name}` found in this profile.")
+            sys.exit(999)
+
+    if using_env.kubecontext is None:
+        current_context = run_get_output("kubectl config current-context")
+        using_env.kubecontext = current_context
+
+    tag_path = using_helm_profile.tag_path
+    if tag_path is None or len(tag_path) == 0:
+        tag_path = "image.tag"
+
+    tag = using_helm_profile.static_tag
+    static_tag = True
+    if tag is None or len(tag) == 0:
+        tag = RUNTIME.values["image_tag"]
+        static_tag = False
+
+    tag_label = tag
+    if static_tag:
+        tag_label = tag_label + " (static)"
+
     # confirm apply
     if not yes:
         print("==================")
         cc.label("Deployment Name", using_helm_profile.dpname)
-        cc.label("Docker Image Tag", RUNTIME.values["image_tag"])
+        if repo_name:
+            cc.label("Repository Name", repo_name)
+            cc.label("Package Name", using_helm_profile.package)
+        else:
+            cc.label("Docker Image Tag", tag_label)
+            cc.label("Package Path", using_helm_profile.package)
         cc.label("Kubernetes Context", using_env.kubecontext)
         cc.label("Namespace", using_helm_profile.namespace)
-        cc.label("Package Path", using_helm_profile.package)
         cc.label("Values File", using_env.values_file)
+        cc.label("Set Tag Path", tag_path)
         print("-------------------")
         result = inquirer.confirm("Confirm to apply", default=True).execute()
         if not result:
             cc.warn("User aborted.")
             sys.exit(999)
+
+    if repo is not None:
+        add_repo(repo_name, repo.url)
 
     apply_helm_package(
         dpname=using_helm_profile.dpname,
@@ -225,7 +262,9 @@ def apply(name: str = None, env: str = None, yes: bool = False):
         kubecontext=using_env.kubecontext,
         package=using_helm_profile.package,
         values=using_env.values_file,
-        tag=RUNTIME.values["image_tag"],
+        tag=tag,
+        repo=repo,
+        tag_path=tag_path,
     )
 
 
